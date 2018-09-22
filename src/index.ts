@@ -1,6 +1,6 @@
 import { dirname, extname, join } from 'path'
 import { isFile } from 'saxon/sync'
-import semver from 'semver'
+import * as semver from 'semver'
 import { commands, ExtensionContext, Uri, workspace } from 'vscode'
 import { Installer } from './installer'
 import { Package, readJSON } from './package'
