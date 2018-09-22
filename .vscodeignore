@@ -1,0 +1,7 @@
+.vscode/**
+src/**
+package-lock.json
+.gitignore
+.prettierrc
+tsconfig.json
+tslint.json

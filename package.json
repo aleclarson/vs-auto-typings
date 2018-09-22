@@ -1,0 +1,72 @@
+{
+  "name": "auto-typings",
+  "description": "Managed dependencies for DefinitelyTyped",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "publisher": "aleclarson",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aleclarson/vs-auto-typings"
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "dependencies": {
+    "@cush/exec": "^1.3.1",
+    "ee-ts": "^0.1.4",
+    "saxon": "^0.1.13",
+    "semver": "^5.5.1",
+    "vscode": "^1.1.21"
+  },
+  "devDependencies": {
+    "@types/node": "^10.9.4",
+    "@types/semver": "^5.5.0",
+    "prettier": "^1.14.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.0-dev.20180921",
+    "wch-typescript": "^0.1.2"
+  },
+  "engines": {
+    "vscode": "^1.27.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "icon": "icon.png",
+  "displayName": "Auto-Typings 💎",
+  "galleryBanner": {
+    "color": "#fff",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "workspaceContains:**/package.json",
+    "onCommand:typings.check-workspace"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Auto-Typings configuration",
+      "properties": {
+        "typings.dev": {
+          "type": "boolean",
+          "default": true,
+          "description": "Default to `devDependencies` for `@types/*` packages"
+        },
+        "typings.bin": {
+          "type": "string",
+          "default": "npm",
+          "description": "Default binary to execute commands with"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "typings.check-workspace",
+        "title": "Enable auto typings"
+      }
+    ]
+  }
+}
