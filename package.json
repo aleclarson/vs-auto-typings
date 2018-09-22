@@ -39,7 +39,7 @@
   "displayName": "Auto-Typings 💎",
   "galleryBanner": {
     "color": "#fff",
-    "theme": "dark"
+    "theme": "light"
   },
   "activationEvents": [
     "workspaceContains:**/package.json",
