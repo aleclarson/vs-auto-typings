@@ -73,7 +73,25 @@ export async function activate(ctx: ExtensionContext) {
     }
 
     // Watch the dependencies of every package.
-    pack.on('dependency', async (name, version, dev) => {
+    pack.on('dependency', (name, version, dev) => {
+      onDependency(name, version, dev).catch(console.error)
+    })
+
+    // Watch the "tsconfig.json" module
+    pack.subs.push(
+      pack.watch(['tsconfig.json'], {
+        add() {
+          installer = new Installer(pack)
+          installers[root] = installer
+        },
+        delete() {
+          installer!.dispose()
+          installer = undefined
+        },
+      })[0]
+    )
+
+    async function onDependency(name: string, version: string | null, dev: boolean) {
       console.info('dependency:', name, version, dev)
       if (
         name.startsWith(TS_PREFIX) ||
@@ -100,21 +118,7 @@ export async function activate(ctx: ExtensionContext) {
           installer.uninstall(TS_PREFIX + name)
         }
       }
-    })
-
-    // Watch the "tsconfig.json" module
-    pack.subs.push(
-      pack.watch(['tsconfig.json'], {
-        add() {
-          installer = new Installer(pack)
-          installers[root] = installer
-        },
-        delete() {
-          installer!.dispose()
-          installer = undefined
-        },
-      })[0]
-    )
+    }
   }
 
   /** Return true if the given package has typings for the given dependency */
