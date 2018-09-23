@@ -34,7 +34,7 @@
     },
     "no-console": false,
     "no-default-export": true,
-    "no-empty": [true, "allow-empty-functions"],
+    "no-empty": false,
     "no-namespace": false,
     "no-shadowed-variable": false,
     "object-literal-sort-keys": false,
