@@ -158,12 +158,16 @@ export class Package extends EE<PackageEvents> {
 
 export async function readJSON(uri: Uri | null): Promise<object | undefined> {
   if (uri) {
-    let doc = await workspace.openTextDocument(uri)
-    if (!doc.isUntitled) {
-      let data = JSON.parse(doc.getText())
-      if (data && data.constructor == Object) {
-        return data
+    try {
+      let doc = await workspace.openTextDocument(uri)
+      if (!doc.isUntitled) {
+        let data = JSON.parse(doc.getText())
+        if (data && data.constructor == Object) {
+          return data
+        }
       }
+    } catch (e) {
+      console.error(e)
     }
   }
 }
