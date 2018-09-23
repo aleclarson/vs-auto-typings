@@ -112,6 +112,8 @@ export class Package extends EE<PackageEvents> {
 
   /** Reload the given "package.json" URI and emit change events */
   private async _reload(uri: Uri | null): Promise<void> {
+    await sleep(0.25)
+
     if (this.exists('package.json')) {
       let data: Partial<Package> = (await readJSON(uri)) || {}
       let changes: string[]
@@ -198,4 +200,8 @@ function shallowDiff(
     changed.push(key)
   }
   return changed
+}
+
+function sleep(seconds: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000))
 }
