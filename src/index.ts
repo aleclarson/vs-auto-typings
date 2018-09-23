@@ -63,8 +63,6 @@ export async function activate(ctx: ExtensionContext) {
       } else return
     } else return
 
-    console.info('Loaded auto-typings for package:', root)
-
     // Create an installer immediately if possible.
     let installer: Installer | undefined
     if (pack.exists('tsconfig.json')) {
@@ -81,25 +79,28 @@ export async function activate(ctx: ExtensionContext) {
     pack.subs.push(
       pack.watch(['tsconfig.json'], {
         add() {
+          console.info('Enabled auto-typings for package:', root)
           installer = new Installer(pack)
           installers[root] = installer
         },
         delete() {
+          console.info('Disabled auto-typings for package:', root)
           installer!.dispose()
           installer = undefined
         },
       })[0]
     )
 
-    async function onDependency(name: string, version: string | null, dev: boolean) {
-      console.info('dependency:', name, version, dev)
-      if (
-        name.startsWith(TS_PREFIX) ||
-        (version &&
-          (pack.getDependency(name) ||
-            !(semver.valid(version) || semver.validRange(version))))
-      ) {
-        return
+    async function onDependency(
+      name: string,
+      version: string | null,
+      dev: boolean
+    ) {
+      console.info('Dependency changed:', name, version, '(dev:', dev + ')')
+      if (name.startsWith(TS_PREFIX)) return
+      if (version) {
+        if (pack.getDependency(name)) return
+        if (!semver.valid(version) && !semver.validRange(version)) return
       }
       if (installer) {
         if (version) {

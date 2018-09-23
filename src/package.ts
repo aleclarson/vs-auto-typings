@@ -58,7 +58,7 @@ export class Package extends EE<PackageEvents> {
     )
   }
 
-  async load() {
+  load() {
     return this._reload(this.uri('package.json'))
   }
 
