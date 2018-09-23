@@ -131,14 +131,22 @@ export async function activate(ctx: ExtensionContext) {
 
   /** Resolves to true if the given package has typings */
   async function isPackageTyped(root: string): Promise<boolean> {
-    let data: any = await readJSON(Uri.file(root + '/package.json'))
-    if (!data) return false
-    if (data.typings) return true
-    let deps = data.devDependencies || {}
-    if (deps[TS_DEP] != null) return true
-    let main: string = data.main || 'index.js'
-    main = main.slice(0, -extname(main).length) + '.d.ts'
-    return isFile(main)
+    // Look for tsconfig.json
+    if (isFile(join(root, 'tsconfig.json'))) {
+      return true
+    }
+    let data: any = await readJSON(Uri.file(join(root, 'package.json')))
+    if (data) {
+      // Look for "typings" or "types" field
+      if (data.typings || data.types) {
+        return true
+      }
+      // Look for .d.ts module
+      let main: string = data.main || 'index.js'
+      main = main.slice(0, -extname(main).length) + '.d.ts'
+      return isFile(join(root, main))
+    }
+    return false
   }
 }
 
