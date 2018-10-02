@@ -169,6 +169,9 @@ export async function readJSON(uri: Uri | null): Promise<object | undefined> {
         }
       }
     } catch (e) {
+      if (e.name == 'SyntaxError') {
+        console.warn('Failed to parse:', uri.toString())
+      }
       console.error(e)
     }
   }
