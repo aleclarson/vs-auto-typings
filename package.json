@@ -27,7 +27,7 @@
     "tslint": "5.11.0",
     "tslint-mango": "0.1.6",
     "typescript": "3.2.1",
-    "vscode": "1.1.22",
+    "vscode": "1.1.26",
     "wch-typescript": "0.1.3"
   },
   "engines": {
