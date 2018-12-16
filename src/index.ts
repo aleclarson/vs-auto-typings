@@ -18,7 +18,6 @@ type InstallerCache = { [key: string]: Installer }
 const nodeModulesRE = /\/node_modules\//
 const noop = () => {}
 
-const TS_DEP = 'typescript'
 const TS_PREFIX = '@types/'
 
 export async function activate(ctx: ExtensionContext) {
@@ -97,7 +96,7 @@ export async function activate(ctx: ExtensionContext) {
       version: string | null,
       dev: boolean
     ) {
-      console.info('Dependency changed:', name, version, '(dev:', dev + ')')
+      console.info('Dependency changed:', name, version, `(dev: ${dev})`)
       if (name.startsWith(TS_PREFIX)) return
       if (dev && getDefault('skipDev')) return
       if (version) {
