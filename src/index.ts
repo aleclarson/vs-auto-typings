@@ -2,6 +2,7 @@ import { dirname, extname, join } from 'path'
 import { isFile } from 'saxon/sync'
 import * as semver from 'semver'
 import { commands, ExtensionContext, Uri, workspace } from 'vscode'
+import { getDefault } from './defaults'
 import { Installer } from './installer'
 import { Package, readJSON } from './package'
 import { watch } from './watcher'
@@ -98,6 +99,7 @@ export async function activate(ctx: ExtensionContext) {
     ) {
       console.info('Dependency changed:', name, version, '(dev:', dev + ')')
       if (name.startsWith(TS_PREFIX)) return
+      if (dev && getDefault('skipDev')) return
       if (version) {
         if (pack.getDependency(name)) return
         if (!semver.valid(version) && !semver.validRange(version)) return

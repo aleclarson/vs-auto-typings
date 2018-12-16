@@ -60,6 +60,11 @@
           "type": "string",
           "default": "npm",
           "description": "Default binary to execute commands with"
+        },
+        "typings.skipDev": {
+          "type": "boolean",
+          "default": true,
+          "description": "Never install typings for devDependencies"
         }
       }
     },

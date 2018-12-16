@@ -7,6 +7,7 @@ type Out<T> = T extends (...args: any[]) => infer U ? U : never
 const defaults = {
   bin: (): string => get('bin') || 'npm',
   dev: () => !!get('dev'),
+  skipDev: () => !!get('skipDev'),
 }
 
 /** Get a user-configured default value */
